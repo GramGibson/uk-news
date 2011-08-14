@@ -5,9 +5,14 @@
       this.el = ich.stack({
         Id: id
       });
+      this.pages = [];
       $('#window').append(this.el);
     }
     Stack.prototype.push = function(page) {
+      if (this.pages.indexOf(page.id || page.page.id) !== -1) {
+        return;
+      }
+      this.pages.push(page.id || page.page.id);
       if (this.el.find('div').not(':hidden').length === 0) {
         this.el.append(page.page);
         return;
@@ -19,6 +24,7 @@
     };
     Stack.prototype.pop = function() {
       var last_child;
+      this.pages.splice(this.pages.indexOf(this.pages.length), 1);
       last_child = this.el.find('.page:last-child');
       this.slideTo(last_child.prev(), 0);
       return this.slideTo(last_child, 100, __bind(function() {
