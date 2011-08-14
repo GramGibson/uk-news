@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<title></title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="zepto-template-min.js"></script>
+	<script src="scrollability.js"></script>
+	<script src="templates.js"></script>
+	<script src="app.js"></script>
+	<script src="page.js"></script>
+	<script src="stack.js"></script>
+	<script src="feeds.js"></script>
+	<script src="feed.js"></script>
+	<script src="feed_item.js"></script>
+	<script>
+		document.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
+	</script>
+	<style>
+	
+	body {
+		font: 1em sans-serif;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+	}
+	
+	#loading{
+		z-index: 10000;
+		opacity: 1;
+		position: fixed; top: 47px; left: 0px; width: 100%; height: 100%; text-align: center; vertical-align: middle;
+		padding-top: 37%;
+	}
+	
+	div.spinner {
+		position: relative;
+		width: 48px;
+		height: 48px;
+		display: inline-block;
+	}
+
+	div.spinner div {
+		width: 12%;
+		height: 26%;
+		background: #000;
+		position: absolute;
+		left: 60%;
+		top: 50%;
+		opacity: 0;
+		-webkit-animation: fade 1s linear infinite;
+		-webkit-border-radius: 50px;
+		-webkit-box-shadow: 0 0 3px rgba(0,0,0,0.2);
+	}
+
+	div.spinner div.bar1 {-webkit-transform:rotate(0deg) translate(0, -142%); -webkit-animation-delay: 0s;}    
+	div.spinner div.bar2 {-webkit-transform:rotate(30deg) translate(0, -142%); -webkit-animation-delay: -0.9167s;}
+	div.spinner div.bar3 {-webkit-transform:rotate(60deg) translate(0, -142%); -webkit-animation-delay: -0.833s;}
+	div.spinner div.bar4 {-webkit-transform:rotate(90deg) translate(0, -142%); -webkit-animation-delay: -0.75s;}
+	div.spinner div.bar5 {-webkit-transform:rotate(120deg) translate(0, -142%); -webkit-animation-delay: -0.667s;}
+	div.spinner div.bar6 {-webkit-transform:rotate(150deg) translate(0, -142%); -webkit-animation-delay: -0.5833s;}
+	div.spinner div.bar7 {-webkit-transform:rotate(180deg) translate(0, -142%); -webkit-animation-delay: -0.5s;}
+	div.spinner div.bar8 {-webkit-transform:rotate(210deg) translate(0, -142%); -webkit-animation-delay: -0.41667s;}
+	div.spinner div.bar9 {-webkit-transform:rotate(240deg) translate(0, -142%); -webkit-animation-delay: -0.333s;}
+	div.spinner div.bar10 {-webkit-transform:rotate(270deg) translate(0, -142%); -webkit-animation-delay: -0.25s;}
+	div.spinner div.bar11 {-webkit-transform:rotate(300deg) translate(0, -142%); -webkit-animation-delay: -0.1667s;}
+	div.spinner div.bar12 {-webkit-transform:rotate(330deg) translate(0, -142%); -webkit-animation-delay: -0.0833s;}
+
+	@-webkit-keyframes fade {
+		from {opacity: 1;}
+		to {opacity: 0.25;}
+	}
+	
+	.header {
+		position: absolute; 
+		z-index: 2;
+		top: 0; 
+		left: 0;
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3b6e9f), color-stop(100%,#036));
+		width: 100%;
+		color: #fff;
+		text-shadow: 0 -1px 0 #000;
+		border-top: 1px solid rgba(255,255,255,.4);
+		border-bottom: 1px solid #000;
+		-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.3);
+	}
+	
+	.header h2 {
+		margin: 0;
+		padding: .5em 0 .7em 0;
+		font: bold 1.2em sans-serif;
+		text-align: center;
+	}
+	
+	.page {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		overflow: hidden;
+	}
+	
+	.wrapper {
+		position: absolute;
+		z-index: 1;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		overflow: hidden;
+	}
+	
+	.content {
+		font: .8em sans-serif;
+		position: relative;
+	}
+
+	.content h3 {
+		margin: 0;
+		padding: 0;
+	}
+	
+	.back {
+		font: bold .8em sans-serif;
+		border: 1px solid rgba(0,0,0,.3);
+		background: rgba(0,0,0,0);
+		text-align: center;
+		border-radius: 3px;
+		width: 34px;
+		padding: 3px 8px 6px 8px;
+		margin: 9px 6px 0 6px;
+		-webkit-box-shadow: inset 0 -1px 0 #0c355d, inset 0 1px 0 #5982a9;
+		z-index: 3;
+	}
+
+	.back:active {
+		background: rgba(255,255,255,.1);
+	}
+	
+	.header_left {
+		display: table-cell; width: 80px; text-align: left; vertical-align: top;
+	}
+
+	.header_right {
+		display: table-cell; width: 80px; text-align: right; vertical-align: top;
+	}
+
+	.row {
+		table-layout: auto;
+		border-bottom: 1px solid #cfcfcf;
+		padding: .6em;
+		font: 1.1em sans-serif;
+		background: #fff;
+	}
+
+	.row_cell {
+		display: table-cell;
+	}
+
+	.row_arrow_container {
+		display: table-cell; 
+		width: 2%; 
+		vertical-align: middle;
+	}
+
+	.row_arrow {
+		background: url('arrow.png') no-repeat; 
+		width: 20px; 
+		height: 20px;
+	}
+
+	.header_row {
+		margin-top: -1px;
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#558f5a), color-stop(100%,#1a6020));
+		border-top: 1px solid rgba(0,0,0,.1);
+		border-bottom: 1px solid rgba(0,0,0,.7);
+		padding: .6em;
+		font: 1.1em sans-serif;
+		color: #fff;
+		text-shadow: 0 -1px 0 #000;
+		-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
+	}
+	
+	.padded_content {
+		padding: 1em 1em 0 1em;
+		font-size: 1.2em;
+	}
+	
+	.padded_content:last-child {
+		padding-bottom: 1em;
+	}
+	
+	h4 {
+		font-size: 1.4em;
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#ccc));
+	 	border-bottom: 1px solid #aaa;
+		-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+		text-shadow: 0 1px 0 #fff;
+		margin: 0 0 .2em 0;
+		padding: .7em;
+	} 
+	
+	.padded_content p {
+		margin: 0;
+		padding: 0;
+	}
+	
+	.padded_content img {
+		display: none;
+	}
+	
+	.padded_content a {
+		margin: 0 4px 0 4px;
+	}
+	
+	</style>
+</head>
+<body>
+
+<div id="loading" style="display: none">
+	<div class="spinner">
+		<div class="bar1"></div> 
+		<div class="bar2"></div> 
+		<div class="bar3"></div> 
+		<div class="bar4"></div> 
+		<div class="bar5"></div> 
+		<div class="bar6"></div> 
+		<div class="bar7"></div> 
+		<div class="bar8"></div> 
+		<div class="bar9"></div> 
+		<div class="bar10"></div> 
+		<div class="bar11"></div> 
+		<div class="bar12"></div>
+	</div>
+</div>
+
+<div id="window" style="width: 320px;"></div>
+
+</body>
+</html>
