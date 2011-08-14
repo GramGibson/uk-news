@@ -10,7 +10,7 @@ io = require('socket.io').listen(app)
 app.configure 'development', ->
     app.use express.static __dirname + '/views'
 	
-app.listen 6969
+app.listen 9000
 
 #### SOCKET.IO
 

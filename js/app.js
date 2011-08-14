@@ -10,7 +10,7 @@
   app.configure('development', function() {
     return app.use(express.static(__dirname + '/views'));
   });
-  app.listen(6969);
+  app.listen(9000);
   io.enable('browser client minification');
   io.sockets.on('connection', function(socket) {
     return socket.on('get', function(req) {
