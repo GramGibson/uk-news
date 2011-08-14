@@ -11,7 +11,7 @@ template_page = """
 			<div class="page_title">
 				<div style="table-layout: auto;">
 					<div class="header_left"></div>
-					<div class="header_title" onclick="javascript:location.reload()" style="display: table-cell; width: 180px; text-align: center;"><h2>{{Title}}</h2></div>
+					<div class="header_title" onclick="javascript:location.reload()"><h2>{{Title}}</h2></div>
 					<div class="header_right"></div>
 				</div>
 			</div>

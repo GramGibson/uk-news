@@ -16,9 +16,7 @@
 	<script src="feeds.js"></script>
 	<script src="feed.js"></script>
 	<script src="feed_item.js"></script>
-	<script>
-		document.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);
-	</script>
+	<script>document.addEventListener('touchmove', function(e) { e.preventDefault(); }, false);</script>
 	<style>
 	
 	body {
@@ -87,11 +85,30 @@
 		-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.3);
 	}
 	
-	.header h2 {
+	.header_title {
+		width: 100%;
+		display: table-cell;
+	}
+	
+	.header_title h2 {
 		margin: 0;
 		padding: .5em 0 .7em 0;
 		font: bold 1.2em sans-serif;
 		text-align: center;
+	}
+	
+	.header_left {
+		display: table-cell; 
+		min-width: 80px; 
+		text-align: left; 
+		vertical-align: top;
+	}
+
+	.header_right {
+		display: table-cell; 
+		min-width: 80px; 
+		text-align: right; 
+		vertical-align: top;
 	}
 	
 	.page {
@@ -138,14 +155,6 @@
 	.back:active {
 		background: rgba(255,255,255,.1);
 	}
-	
-	.header_left {
-		display: table-cell; width: 80px; text-align: left; vertical-align: top;
-	}
-
-	.header_right {
-		display: table-cell; width: 80px; text-align: right; vertical-align: top;
-	}
 
 	.row {
 		table-layout: auto;
@@ -157,11 +166,12 @@
 
 	.row_cell {
 		display: table-cell;
+		width: 100%;
 	}
 
 	.row_arrow_container {
 		display: table-cell; 
-		width: 2%; 
+		min-width: 20px;
 		vertical-align: middle;
 	}
 
@@ -236,7 +246,7 @@
 	</div>
 </div>
 
-<div id="window" style="width: 320px;"></div>
+<div id="window"></div>
 
 </body>
 </html>
