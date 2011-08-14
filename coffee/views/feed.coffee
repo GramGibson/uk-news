@@ -29,7 +29,7 @@ class window.Feed
 			$('.row').bind 'click', (e) =>
 				if !sliding
 					sliding = true
-					feed_item = new FeedItem(@feed.Title, $(e.currentTarget).data('feed_item'), @stack)
+					feed_item = new FeedItem(@feed.Title, $(e.currentTarget).data('feed_item'), @stack)					
 					@stack.push(feed_item)
 					setTimeout ->
 						sliding = false

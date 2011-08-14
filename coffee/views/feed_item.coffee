@@ -19,6 +19,13 @@ class window.FeedItem
 		div = $('<div class="padded_content" />')
 		div.append @feed_item.description
 		
+		div.bind 'click', (e) ->
+			e.preventDefault()
+		
 		@page.append div
 			
 		$('#loading').hide()
+		
+		setTimeout ->
+			div.unbind()
+		, 1000

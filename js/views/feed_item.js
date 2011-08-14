@@ -20,8 +20,14 @@
       this.page.append($("<h4>" + this.feed_item.title + "</h4>"));
       div = $('<div class="padded_content" />');
       div.append(this.feed_item.description);
+      div.bind('click', function(e) {
+        return e.preventDefault();
+      });
       this.page.append(div);
       $('#loading').hide();
+      setTimeout(function() {
+        return div.unbind();
+      }, 1000);
     }
     return FeedItem;
   })();
