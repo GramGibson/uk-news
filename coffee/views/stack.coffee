@@ -4,7 +4,7 @@ class window.Stack
 		@el = ich.stack { Id: id }
 		$('#window').append @el
 		
-	push: (page) ->
+	push: (page) ->	
 		if @el.find('div').not(':hidden').length == 0
 			@el.append page.page
 			return

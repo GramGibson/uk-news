@@ -9,3 +9,5 @@ $ ->
 	   remove: (k) -> localStorage.removeItem(k)
 	   clear: -> localStorage.clear()
 	)()
+	
+	#store.clear()

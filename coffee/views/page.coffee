@@ -1,5 +1,6 @@
 class window.Page
 	constructor: (args) ->
+		@id = args.id
 		@page = ich.page { Id: args.id, Stack: args.stack, Title: args.title }
 		$(@page).find('.wrapper').css { 'top': args.top, 'bottom': args.bottom || 0 }
 	append: (content) ->

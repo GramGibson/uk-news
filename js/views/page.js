@@ -1,6 +1,7 @@
 (function() {
   window.Page = (function() {
     function Page(args) {
+      this.id = args.id;
       this.page = ich.page({
         Id: args.id,
         Stack: args.stack,
