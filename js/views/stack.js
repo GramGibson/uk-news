@@ -24,6 +24,7 @@
     };
     Stack.prototype.pop = function() {
       var last_child;
+      $('#loading').hide();
       this.pages.splice(this.pages.indexOf(this.pages.length), 1);
       last_child = this.el.find('.page:last-child');
       this.slideTo(last_child.prev(), 0);

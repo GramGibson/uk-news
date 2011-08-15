@@ -23,6 +23,7 @@ class window.Stack
 		@slideTo(@el.find('.page:last-child'), 0)
 	
 	pop: ->
+		$('#loading').hide()
 		@pages.splice(@pages.indexOf(@pages.length), 1)
 		last_child = @el.find('.page:last-child')
 		@slideTo(last_child.prev(), 0)	
