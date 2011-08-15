@@ -1,7 +1,5 @@
 (function() {
-  var NodePie, app, express, http, io, request, sys;
-  sys = require('sys');
-  http = require('http');
+  var NodePie, app, express, io, request;
   express = require('express');
   request = require('request');
   NodePie = require('nodepie');

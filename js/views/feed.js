@@ -4,8 +4,8 @@
     function Feed(feed, stack) {
       this.feed = feed;
       this.stack = stack;
-      this.loadFeed = __bind(this.loadFeed, this);
-      this.showFeed = __bind(this.showFeed, this);
+      this.loadFeed = __bind(this.loadFeed, this);;
+      this.showFeed = __bind(this.showFeed, this);;
       this.page = new Page({
         top: '46px',
         id: 'page_feed',

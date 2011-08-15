@@ -1,5 +1,3 @@
-sys = require 'sys'
-http = require 'http'
 express = require 'express'
 request = require 'request'
 NodePie = require 'nodepie'
